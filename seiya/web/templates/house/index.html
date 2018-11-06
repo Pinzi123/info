@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Seiya 数据分析系统 - 链家参观数据分析{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">首页</a></li>
+    <li class="breadcrumb-item active" aria-current="page">链家租房数据分析</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">热门租房小区</h5>
+        <p class="card-text"></p>
+        <a href="/house/hot_xiaoqu" class="btn btn-primary">详情</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">户型统计</h5>
+        <p class="card-text"></p>
+          <a href="/house/hot_huxing" class="btn btn-primary">详情</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">面积分布</h5>
+        <p class="card-text"></p>
+         <a href="/house/area" class="btn btn-primary">详情</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">房龄统计</h5>
+        <p class="card-text"></p>
+        <a href="/house/years" class="btn btn-primary">详情</a>
+      </div>
+    </div>
+    <div class="card m-5">
+      <div class="card-body">
+         <h5 class="card-title">租金最贵小区</h5>
+         <p class="card-text"></p>
+         <a href="/house/most_exp" class="btn btn-primary">详情</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

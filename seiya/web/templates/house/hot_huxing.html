@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Seiya 数据分析系统 - 职位数 Top10 城市{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">首页</a></li>
+    <li class="breadcrumb-item"><a href="/house">链家租房数据分析</a></li>
+    <li class="breadcrumb-item active" aria-current="page">热门租房小区</li>
+  </ol>
+</nav>
+
+<div class="my-5" id="chart"></div>
+
+<table class="table table-striped my-5">
+  <thead>
+    <tr>
+      <th scope="col">排名</th>
+      <th scope="col">小区名</th>
+      <th scope="col">房子数</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows.data %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>{{ row.item }}</td>
+      <td>{{ row.count }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script>
+$.getJSON('/house/hot_huxing.json', function (re) {
+    var newdata = [];
+    var data = re.data;
+    for (var i = 0;i<data.length;i++){
+        if(data[i].percent>0){
+            newdata.push(data[i])
+        }
+    }
+
+    var chart = new G2.Chart({
+      container: 'chart',
+      forceFit: true,
+      height: window.innerHeight,
+      animate: false
+    });
+    chart.source(newdata, {
+      percent: {
+        formatter: function formatter(val) {
+          val = val * 100 + '%';
+          return val;
+        }
+      }
+    });
+    chart.coord('theta', {
+      radius: 0.75,
+      innerRadius: 0.6
+    });
+    chart.tooltip({
+      showTitle: false,
+      itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+    });
+    // 辅助文本
+    chart.guide().html({
+      position: ['50%', '50%'],
+      html: '<div style="color:#8c8c8c;font-size: 14px;text-align: center;width: 10em;">房子<br><span style="color:#8c8c8c;font-size:20px">'+re.total+'</span>套</div>',
+      alignX: 'middle',
+      alignY: 'middle'
+    });
+    var interval = chart.intervalStack().position('percent').color('item').label('percent', {
+      formatter: function formatter(val, item) {
+        return item.point.item + ': ' + val;
+      }
+    }).tooltip('item*percent', function(item, percent) {
+      percent = percent * 100 + '%';
+      return {
+        name: item,
+        value: percent
+      };
+    }).style({
+      lineWidth: 1,
+      stroke: '#fff'
+    });
+    chart.render();
+    interval.setSelected(data[0]);
+});
+
+
+</script>
+{% endblock %}

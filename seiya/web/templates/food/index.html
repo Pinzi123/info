@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Seiya 数据分析系统 - 大众点评参观数据分析{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">首页</a></li>
+    <li class="breadcrumb-item active" aria-current="page">大众点评职位数据分析</li>
+  </ol>
+</nav>
+
+<div class="row">
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">最受欢迎的餐馆</h5>
+        <p class="card-text"></p>
+        <a href="/food/hot_res" class="btn btn-primary">详情</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">热门分类和商圈</h5>
+        <p class="card-text"></p>
+          <a href="/food/count_top10_lei" class="btn btn-primary">分类</a>
+          <a href="/food/count_top10_quan" class="btn btn-primary">商圈</a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">人均消费最贵的分类和商圈</h5>
+        <p class="card-text"></p>
+         <a href="/food/exp_top10_lei" class="btn btn-primary">分类</a>
+          <a href="/food/exp_top10_quan" class="btn btn-primary">商圈</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col">
+    <div class="card m-5">
+      <div class="card-body">
+        <h5 class="card-title">热门分类在热门商圈的人均消费对比</h5>
+        <p class="card-text"></p>
+        <a href="/food/fenlei_and_quan" class="btn btn-primary">详情</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Seiya 数据分析系统 - 职位数 Top10 城市{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">首页</a></li>
+    <li class="breadcrumb-item"><a href="/house">链家租房数据分析</a></li>
+    <li class="breadcrumb-item active" aria-current="page">房龄统计</li>
+  </ol>
+</nav>
+
+<div class="my-5" id="chart"></div>
+
+<table class="table table-striped my-5">
+  <thead>
+    <tr>
+      <th scope="col">排名</th>
+      <th scope="col">房龄</th>
+      <th scope="col">房子数</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr>
+      <th scope="row">{{ loop.index }}</th>
+      <td>{{ row.year }}</td>
+      <td>{{ row.value }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+<script>
+$.getJSON('/house/years.json', function (data) {
+    var chart = new G2.Chart({
+      container: 'chart',
+      forceFit: true,
+      height: window.innerHeight
+    });
+    chart.source(data);
+    chart.scale('value', {
+      min: 0
+    });
+    chart.scale('year', {
+      range: [0, 1]
+    });
+    chart.tooltip({
+      crosshairs: {
+        type: 'line'
+      }
+    });
+    chart.line().position('year*value');
+    chart.point().position('year*value').size(4).shape('circle').style({
+      stroke: '#fff',
+      lineWidth: 1
+    });
+    chart.render();
+});
+
+
+</script>
+{% endblock %}

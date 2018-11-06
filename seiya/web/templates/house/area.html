@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Seiya 数据分析系统 - 职位数 Top10 城市{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">首页</a></li>
+    <li class="breadcrumb-item"><a href="/house">链家租房数据分析</a></li>
+    <li class="breadcrumb-item active" aria-current="page">房型分布</li>
+  </ol>
+</nav>
+
+<div class="my-5" id="chart"></div>
+
+{% endblock %}
+
+{% block js %}
+{{ super() }}
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.9.6/dist/data-set.min.js"></script>
+<script>
+$.getJSON('/house/area.json', function (values) {
+    var data = [];
+    for (var i = 0; i < values.length; i++) {
+      var obj = {};
+      obj.value = values[i];
+      data.push(obj);
+    }
+    var ds = new DataSet();
+    var dv = ds.createView().source(data);
+    dv.transform({
+      type: 'bin.histogram',
+      field: 'value',
+      binWidth: 10,
+      as: ['value', 'count']
+    });
+    var chart = new G2.Chart({
+      container: 'chart',
+      forceFit: true,
+      height: window.innerHeight
+    });
+    chart.source(dv, {
+      value: {
+        nice: true,
+        min: 1,
+        tickInterval: 1
+      },
+      count: {
+        min: 1
+      }
+    });
+    chart.tooltip({
+      crosshairs: false,
+      inPlot: false,
+      position: 'top'
+    });
+    chart.axis('value', {
+      label: {
+        formatter: function formatter(val) {
+          if (val % 10) {
+            return val;
+          }
+          return '';
+        }
+      }
+    });
+    chart.interval().position('value*count');
+    chart.render();
+});
+</script>
+{% endblock %}
